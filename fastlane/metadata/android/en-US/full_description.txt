@@ -1,0 +1,16 @@
+Tiny app to enforce security policies of your device.
+
+It can:
+* limit the maximum number of failed password attempts
+* disable USB data connections (Android 12, USB HAL 1.3, Device Owner)
+
+Also you can grant it device and app notifications permission to turn off USB data connections
+automatically on screen off.
+
+Permissions:
+* DEVICE_ADMIN - limit the maximum number of failed password attempts
+* DEVICE_OWNER - disable USB data connections
+* NOTIFICATION_LISTENER - receive screen off events (optional)
+
+It is Free Open Source Software.
+License: GPL-3

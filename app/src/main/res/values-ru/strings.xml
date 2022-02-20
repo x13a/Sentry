@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sentry</string>
+    <string name="description">Включите приложение, чтобы применить дополнительные политики безопасности. Вы должны выдать разрешение на администрирование устройства.</string>
+    <string name="device_admin_description">Разрешите приложению стирать данные устройства и отключать передачу данных по USB.</string>
+    <string name="service_unavailable_popup">Администратор устройства недоступен</string>
+    <string name="usb_data_signaling">Передача данных по USB</string>
+    <string name="usb_data_signaling_description">Когда отключено, соединения по USB (кроме зарядки) запрещены.</string>
+    <string name="usb_data_signaling_change_failed_popup">Не удалось изменить политику передачи данных по USB</string>
+    <string name="max_failed_password_attempts_description">Максимальное количество неудачных попыток ввода пароля.</string>
+    <string name="max_failed_password_attempts_content_description">Количество</string>
+</resources>
