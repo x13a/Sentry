@@ -29,7 +29,7 @@ automatically on screen off.
 
 * DEVICE_ADMIN - limit the maximum number of failed password attempts
 * DEVICE_OWNER - disable USB data connections
-* NOTIFICATION_LISTENER - receive screen off events (optional)
+* NOTIFICATION_LISTENER - receive lock events (optional)
 
 ## Example
 
