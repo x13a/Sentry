@@ -7,15 +7,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.service.notification.NotificationListenerService
-import android.util.Log
 import androidx.annotation.RequiresApi
-import java.lang.Exception
 
 class NotificationListenerService : NotificationListenerService() {
-    companion object {
-        private val TAG = NotificationListenerService::class.simpleName
-    }
-
     private val lockReceiver = LockReceiver()
 
     override fun onCreate() {
@@ -52,25 +46,22 @@ class NotificationListenerService : NotificationListenerService() {
     private class LockReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
-                !Preferences(context ?: return).isServiceEnabled) return
+                !Preferences(context ?: return).isEnabled) return
             when (intent?.action) {
                 Intent.ACTION_USER_PRESENT -> {
                     if (context.getSystemService(KeyguardManager::class.java)
                             ?.isDeviceSecure != true) return
-                    setUsbDataSignalingEnabled(context, true, "user present")
+                    setUsbDataSignalingEnabled(context, true)
                 }
-                Intent.ACTION_SCREEN_OFF ->
-                    setUsbDataSignalingEnabled(context, false, "screen off")
+                Intent.ACTION_SCREEN_OFF -> setUsbDataSignalingEnabled(context, false)
             }
         }
 
         @RequiresApi(Build.VERSION_CODES.S)
-        private fun setUsbDataSignalingEnabled(ctx: Context, enabled: Boolean, msg: String) {
+        private fun setUsbDataSignalingEnabled(ctx: Context, enabled: Boolean) {
             try {
                 DeviceAdminManager(ctx).setUsbDataSignalingEnabled(enabled)
-            } catch (exc: Exception) {
-                Log.e(TAG, msg, exc)
-            }
+            } catch (exc: Exception) {}
         }
     }
 }

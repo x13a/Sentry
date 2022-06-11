@@ -3,7 +3,6 @@ package me.lucky.sentry
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +11,6 @@ import com.google.android.material.snackbar.Snackbar
 import me.lucky.sentry.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    companion object {
-        private val TAG = MainActivity::class.simpleName
-    }
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var prefs: Preferences
     private lateinit var admin: DeviceAdminManager
@@ -41,14 +36,15 @@ class MainActivity : AppCompatActivity() {
     private fun init() {
         prefs = Preferences(this)
         admin = DeviceAdminManager(this)
-        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_SECURE_LOCK_SCREEN))
-            hideSecureLockScreenRequired()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+            !packageManager.hasSystemFeature(PackageManager.FEATURE_SECURE_LOCK_SCREEN))
+                hideSecureLockScreenRequired()
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !admin.canUsbDataSignalingBeDisabled())
             hideUsbDataSignaling()
         binding.apply {
             maxFailedPasswordAttempts.value = prefs.maxFailedPasswordAttempts.toFloat()
             usbDataSignaling.isChecked = isUsbDataSignalingEnabled()
-            toggle.isChecked = prefs.isServiceEnabled
+            toggle.isChecked = prefs.isEnabled
         }
     }
 
@@ -66,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                     try {
                         admin.setUsbDataSignalingEnabled(isChecked)
                     } catch (exc: Exception) {
-                        Log.e(TAG, "usbDataSignaling", exc)
                         Snackbar.make(
                             usbDataSignaling,
                             R.string.usb_data_signaling_change_failed_popup,
@@ -97,11 +92,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setOn() {
-        prefs.isServiceEnabled = true
+        prefs.isEnabled = true
     }
 
     private fun setOff() {
-        prefs.isServiceEnabled = false
+        prefs.isEnabled = false
         admin.remove()
     }
 
@@ -109,7 +104,7 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             usbDataSignaling.isChecked = isUsbDataSignalingEnabled()
         }
-        if (prefs.isServiceEnabled && !admin.isActive())
+        if (prefs.isEnabled && !admin.isActive())
             Snackbar.make(
                 binding.toggle,
                 R.string.service_unavailable_popup,

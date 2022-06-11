@@ -11,7 +11,7 @@ class DeviceAdminReceiver : DeviceAdminReceiver() {
         super.onPasswordFailed(context, intent, user)
         val prefs = Preferences(context)
         val maxFailedPasswordAttempts = prefs.maxFailedPasswordAttempts
-        if (!prefs.isServiceEnabled || maxFailedPasswordAttempts <= 0) return
+        if (!prefs.isEnabled || maxFailedPasswordAttempts <= 0) return
         val admin = DeviceAdminManager(context)
         if (admin.getCurrentFailedPasswordAttempts() >= maxFailedPasswordAttempts)
             admin.wipeData()
@@ -19,7 +19,7 @@ class DeviceAdminReceiver : DeviceAdminReceiver() {
 
     override fun onDisabled(context: Context, intent: Intent) {
         super.onDisabled(context, intent)
-        if (Preferences(context).isServiceEnabled)
+        if (Preferences(context).isEnabled)
             Toast.makeText(context, R.string.service_unavailable_popup, Toast.LENGTH_SHORT).show()
     }
 
