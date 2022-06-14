@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sentry</string>
-    <string name="description">Turn on Sentry to enforce security policies of your device. You have to grant device administration permission.</string>
-    <string name="device_admin_description">Allow Sentry to wipe a device and disable USB data connections.</string>
     <string name="service_unavailable_popup">Device admin unavailable</string>
     <string name="usb_data_signaling">USB data signaling</string>
     <string name="usb_data_signaling_description">When disabled, USB data connections (except from charging functions) are prohibited.</string>

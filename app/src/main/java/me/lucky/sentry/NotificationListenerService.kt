@@ -34,7 +34,7 @@ class NotificationListenerService : NotificationListenerService() {
     }
 
     private fun deinit() {
-        unregisterReceiver(lockReceiver)
+        try { unregisterReceiver(lockReceiver) } catch (exc: IllegalArgumentException) {}
     }
 
     override fun onListenerConnected() {
@@ -59,9 +59,8 @@ class NotificationListenerService : NotificationListenerService() {
 
         @RequiresApi(Build.VERSION_CODES.S)
         private fun setUsbDataSignalingEnabled(ctx: Context, enabled: Boolean) {
-            try {
-                DeviceAdminManager(ctx).setUsbDataSignalingEnabled(enabled)
-            } catch (exc: Exception) {}
+            try { DeviceAdminManager(ctx).setUsbDataSignalingEnabled(enabled) }
+            catch (exc: Exception) {}
         }
     }
 }

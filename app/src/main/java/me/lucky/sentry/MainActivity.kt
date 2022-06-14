@@ -12,7 +12,7 @@ import me.lucky.sentry.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var prefs: Preferences
+    private lateinit var prefs: PreferencesProxy
     private lateinit var admin: DeviceAdminManager
 
     private val registerForDeviceAdmin =
@@ -34,8 +34,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        prefs = Preferences(this)
+        prefs = PreferencesProxy(this)
+        prefs.clone()
         admin = DeviceAdminManager(this)
+        if (prefs.isEnabled && prefs.maxFailedPasswordAttempts > 0)
+            try { admin.setMaximumFailedPasswordsForWipe(0) } catch (exc: SecurityException) {}
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
             !packageManager.hasSystemFeature(PackageManager.FEATURE_SECURE_LOCK_SCREEN))
                 hideSecureLockScreenRequired()
@@ -51,11 +54,7 @@ class MainActivity : AppCompatActivity() {
     private fun setup() {
         binding.apply {
             maxFailedPasswordAttempts.addOnChangeListener { _, value, _ ->
-                val num = value.toInt()
-                prefs.maxFailedPasswordAttempts = num
-                try {
-                    admin.setMaximumFailedPasswordsForWipe(num.shl(1))
-                } catch (exc: SecurityException) {}
+                prefs.maxFailedPasswordAttempts = value.toInt()
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 usbDataSignaling.setOnCheckedChangeListener { _, isChecked ->
@@ -97,13 +96,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOff() {
         prefs.isEnabled = false
-        admin.remove()
+        try { admin.remove() } catch (exc: SecurityException) {}
     }
 
     private fun update() {
-        binding.apply {
-            usbDataSignaling.isChecked = isUsbDataSignalingEnabled()
-        }
+        binding.usbDataSignaling.isChecked = isUsbDataSignalingEnabled()
         if (prefs.isEnabled && !admin.isActive())
             Snackbar.make(
                 binding.toggle,
