@@ -1,13 +1,14 @@
 package me.lucky.sentry
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 
-class Preferences(ctx: Context) : Prefs {
+class Preferences(ctx: Context, encrypted: Boolean = true) {
     companion object {
         const val ENABLED = "enabled"
         const val MAX_FAILED_PASSWORD_ATTEMPTS = "max_failed_password_attempts"
@@ -17,63 +18,44 @@ class Preferences(ctx: Context) : Prefs {
         private const val SERVICE_ENABLED = "service_enabled"
     }
 
-    private val mk = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-    private val prefs = EncryptedSharedPreferences.create(
-        FILE_NAME,
-        mk,
-        ctx,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
-    )
-
-    override var isEnabled: Boolean
-        get() = prefs.getBoolean(ENABLED, prefs.getBoolean(SERVICE_ENABLED, false))
-        set(value) = prefs.edit { putBoolean(ENABLED, value) }
-
-    override var maxFailedPasswordAttempts: Int
-        get() = prefs.getInt(MAX_FAILED_PASSWORD_ATTEMPTS, 0)
-        set(value) = prefs.edit { putInt(MAX_FAILED_PASSWORD_ATTEMPTS, value) }
-}
-
-class PreferencesProxy(ctx: Context) {
-    private val prefs = Preferences(ctx)
-    private val prefsdb = PreferencesDirectBoot(ctx)
-
-    fun clone() {
-        prefsdb.isEnabled = prefs.isEnabled
-        prefsdb.maxFailedPasswordAttempts = prefsdb.maxFailedPasswordAttempts
+    private val prefs: SharedPreferences = if (encrypted) {
+        val mk = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+        EncryptedSharedPreferences.create(
+            FILE_NAME,
+            mk,
+            ctx,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
+        )
+    } else {
+        val context = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            ctx.createDeviceProtectedStorageContext() else ctx
+        PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     var isEnabled: Boolean
-        get() = prefs.isEnabled
-        set(value) {
-            prefs.isEnabled = value
-            prefsdb.isEnabled = value
-        }
+        get() = prefs.getBoolean(ENABLED, prefs.getBoolean(SERVICE_ENABLED, false))
+        set(value) = prefs.edit { putBoolean(ENABLED, value) }
 
     var maxFailedPasswordAttempts: Int
-        get() = prefs.maxFailedPasswordAttempts
-        set(value) {
-            prefs.maxFailedPasswordAttempts = value
-            prefsdb.maxFailedPasswordAttempts = value
+        get() = prefs.getInt(MAX_FAILED_PASSWORD_ATTEMPTS, 0)
+        set(value) = prefs.edit { putInt(MAX_FAILED_PASSWORD_ATTEMPTS, value) }
+
+    fun registerListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) =
+        prefs.registerOnSharedPreferenceChangeListener(listener)
+
+    fun unregisterListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) =
+        prefs.unregisterOnSharedPreferenceChangeListener(listener)
+
+    fun copyTo(dst: Preferences, key: String? = null) = dst.prefs.edit {
+        for (entry in prefs.all.entries) {
+            val k = entry.key
+            if (key != null && k != key) continue
+            val v = entry.value ?: continue
+            when (v) {
+                is Boolean -> putBoolean(k, v)
+                is Int -> putInt(k, v)
+            }
         }
-}
-
-interface Prefs {
-    var isEnabled: Boolean
-    var maxFailedPasswordAttempts: Int
-}
-
-class PreferencesDirectBoot(ctx: Context) : Prefs {
-    private val context = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-        ctx.createDeviceProtectedStorageContext() else ctx
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-
-    override var isEnabled: Boolean
-        get() = prefs.getBoolean(Preferences.ENABLED, false)
-        set(value) = prefs.edit { putBoolean(Preferences.ENABLED, value) }
-
-    override var maxFailedPasswordAttempts: Int
-        get() = prefs.getInt(Preferences.MAX_FAILED_PASSWORD_ATTEMPTS, 0)
-        set(value) = prefs.edit { putInt(Preferences.MAX_FAILED_PASSWORD_ATTEMPTS, value) }
+    }
 }

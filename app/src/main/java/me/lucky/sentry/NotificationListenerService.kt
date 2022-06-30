@@ -1,6 +1,5 @@
 package me.lucky.sentry
 
-import android.app.KeyguardManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -23,14 +22,14 @@ class NotificationListenerService : NotificationListenerService() {
     }
 
     private fun init() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
-            DeviceAdminManager(this).canUsbDataSignalingBeDisabled())
-        {
-            registerReceiver(lockReceiver, IntentFilter().apply {
-                addAction(Intent.ACTION_USER_PRESENT)
-                addAction(Intent.ACTION_SCREEN_OFF)
-            })
-        }
+        val admin = DeviceAdminManager(this)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
+            !admin.canUsbDataSignalingBeDisabled() ||
+            !admin.isDeviceOwner()) { return }
+        registerReceiver(lockReceiver, IntentFilter().apply {
+            addAction(Intent.ACTION_USER_PRESENT)
+            addAction(Intent.ACTION_SCREEN_OFF)
+        })
     }
 
     private fun deinit() {
@@ -48,11 +47,7 @@ class NotificationListenerService : NotificationListenerService() {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
                 !Preferences(context ?: return).isEnabled) return
             when (intent?.action) {
-                Intent.ACTION_USER_PRESENT -> {
-                    if (context.getSystemService(KeyguardManager::class.java)
-                            ?.isDeviceSecure != true) return
-                    setUsbDataSignalingEnabled(context, true)
-                }
+                Intent.ACTION_USER_PRESENT -> setUsbDataSignalingEnabled(context, true)
                 Intent.ACTION_SCREEN_OFF -> setUsbDataSignalingEnabled(context, false)
             }
         }

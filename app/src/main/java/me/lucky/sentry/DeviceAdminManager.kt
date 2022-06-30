@@ -12,8 +12,8 @@ class DeviceAdminManager(private val ctx: Context) {
     private val deviceAdmin by lazy { ComponentName(ctx, DeviceAdminReceiver::class.java) }
 
     fun remove() = dpm?.removeActiveAdmin(deviceAdmin)
-    fun isActive() = dpm?.isAdminActive(deviceAdmin) ?: false
     fun getCurrentFailedPasswordAttempts() = dpm?.currentFailedPasswordAttempts ?: 0
+    fun isDeviceOwner() = dpm?.isDeviceOwnerApp(ctx.packageName) ?: false
 
     @RequiresApi(Build.VERSION_CODES.S)
     fun canUsbDataSignalingBeDisabled() = dpm?.canUsbDataSignalingBeDisabled() ?: false
@@ -32,9 +32,6 @@ class DeviceAdminManager(private val ctx: Context) {
             flags = flags.or(DevicePolicyManager.WIPE_EUICC)
         dpm?.wipeData(flags)
     }
-
-    fun setMaximumFailedPasswordsForWipe(num: Int) =
-        dpm?.setMaximumFailedPasswordsForWipe(deviceAdmin, num)
 
     fun makeRequestIntent() =
         Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)

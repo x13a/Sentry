@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sentry</string>
-    <string name="service_unavailable_popup">Device admin unavailable</string>
     <string name="usb_data_signaling">USB data signaling</string>
     <string name="usb_data_signaling_description">When disabled, USB data connections (except from charging functions) are prohibited.</string>
     <string name="usb_data_signaling_change_failed_popup">Failed to change USB data signaling policy</string>
     <string name="max_failed_password_attempts_description">Maximum number of failed password attempts.</string>
-    <string name="max_failed_password_attempts_content_description">Count</string>
+    <string name="biometric_title">Biometric login</string>
 </resources>

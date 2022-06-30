@@ -22,7 +22,7 @@ It can:
 * limit the maximum number of failed password attempts
 * disable USB data connections (Android 12, USB HAL 1.3, Device Owner)
 
-Also you can grant it device and app notifications permission to turn off USB data connections 
+Also you can grant it device & app notifications permission to turn off USB data connections 
 automatically on screen off.
 
 ## Permissions

@@ -10,10 +10,8 @@ import android.os.UserManager
 class DeviceAdminReceiver : DeviceAdminReceiver() {
     override fun onPasswordFailed(context: Context, intent: Intent, user: UserHandle) {
         super.onPasswordFailed(context, intent, user)
-        val prefs = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-            context.getSystemService(UserManager::class.java)?.isUserUnlocked != true)
-
-            PreferencesDirectBoot(context) else Preferences(context)
+        val prefs = Preferences(context, encrypted = Build.VERSION.SDK_INT < Build.VERSION_CODES.N
+                || context.getSystemService(UserManager::class.java)?.isUserUnlocked == true)
         val maxFailedPasswordAttempts = prefs.maxFailedPasswordAttempts
         if (!prefs.isEnabled || maxFailedPasswordAttempts <= 0) return
         val admin = DeviceAdminManager(context)
