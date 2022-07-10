@@ -31,8 +31,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        init()
+        init1()
         if (initBiometric()) return
+        init2()
         setup()
     }
 
@@ -70,22 +71,28 @@ class MainActivity : AppCompatActivity() {
 
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
+                init2()
                 setup()
             }
         })
-        prompt.authenticate(BiometricPrompt.PromptInfo.Builder()
-            .setTitle(getString(R.string.biometric_title))
-            .setConfirmationRequired(false)
-            .setAllowedAuthenticators(authenticators)
-            .build())
+        try {
+            prompt.authenticate(BiometricPrompt.PromptInfo.Builder()
+                .setTitle(getString(R.string.authentication))
+                .setConfirmationRequired(false)
+                .setAllowedAuthenticators(authenticators)
+                .build())
+        } catch (exc: Exception) { return false }
         return true
     }
 
-    private fun init() {
+    private fun init1() {
         prefs = Preferences(this)
         prefsdb = Preferences(this, encrypted = false)
         prefs.copyTo(prefsdb)
         admin = DeviceAdminManager(this)
+    }
+
+    private fun init2() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
             !admin.canUsbDataSignalingBeDisabled() ||
             !admin.isDeviceOwner())

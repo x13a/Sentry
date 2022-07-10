@@ -5,5 +5,5 @@
     <string name="usb_data_signaling_description">When disabled, USB data connections (except from charging functions) are prohibited.</string>
     <string name="usb_data_signaling_change_failed_popup">Failed to change USB data signaling policy</string>
     <string name="max_failed_password_attempts_description">Maximum number of failed password attempts.</string>
-    <string name="biometric_title">Biometric login</string>
+    <string name="authentication">Authentication</string>
 </resources>
