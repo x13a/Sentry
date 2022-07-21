@@ -3,7 +3,20 @@
     <string name="app_name">Sentry</string>
     <string name="usb_data_signaling">USB data signaling</string>
     <string name="usb_data_signaling_description">When disabled, USB data connections (except from charging functions) are prohibited.</string>
+    <string name="usb_data_signaling_ctl">Controller</string>
+    <string name="usb_data_signaling_ctl_description">Turn USB data signaling OFF on screen off and turn it ON on unlock.</string>
     <string name="usb_data_signaling_change_failed_popup">Failed to change USB data signaling policy</string>
     <string name="max_failed_password_attempts_description">Maximum number of failed password attempts.</string>
     <string name="authentication">Authentication</string>
+    <string name="main">Main</string>
+    <string name="monitor">Monitor</string>
+    <string name="monitor_password">Password</string>
+    <string name="monitor_password_description">On failed password attempt you will get a notification.</string>
+    <string name="monitor_internet">Internet</string>
+    <string name="monitor_internet_description">If any app will get INTERNET permission after an update you will get a notification.</string>
+    <string name="notification_title">ALERT</string>
+    <string name="notification_password_text">Failed password attempt detected!</string>
+    <string name="notification_internet_text">%1$s (%2$s) has got INTERNET permission!</string>
+    <string name="unknown_app">An unknown app</string>
+    <string name="goto_button">GOTO</string>
 </resources>

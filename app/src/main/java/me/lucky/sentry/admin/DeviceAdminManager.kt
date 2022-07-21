@@ -1,4 +1,4 @@
-package me.lucky.sentry
+package me.lucky.sentry.admin
 
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName

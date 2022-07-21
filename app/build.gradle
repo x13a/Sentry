@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -10,10 +11,16 @@ android {
         applicationId "me.lucky.sentry"
         minSdk 23
         targetSdk 32
-        versionCode 6
-        versionName "1.0.5"
+        versionCode 7
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -50,4 +57,9 @@ dependencies {
     implementation 'androidx.security:security-crypto:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.biometric:biometric:1.1.0'
+    implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
+
+    def room_version = "2.4.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }

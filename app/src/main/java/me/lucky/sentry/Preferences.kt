@@ -10,8 +10,10 @@ import androidx.security.crypto.MasterKeys
 
 class Preferences(ctx: Context, encrypted: Boolean = true) {
     companion object {
-        const val ENABLED = "enabled"
-        const val MAX_FAILED_PASSWORD_ATTEMPTS = "max_failed_password_attempts"
+        private const val ENABLED = "enabled"
+        private const val MAX_FAILED_PASSWORD_ATTEMPTS = "max_failed_password_attempts"
+        private const val USB_DATA_SIGNALING_CTL_ENABLED = "usb_data_signaling_ctl_enabled"
+        private const val MONITOR = "monitor"
 
         private const val FILE_NAME = "sec_shared_prefs"
         // migration
@@ -41,6 +43,14 @@ class Preferences(ctx: Context, encrypted: Boolean = true) {
         get() = prefs.getInt(MAX_FAILED_PASSWORD_ATTEMPTS, 0)
         set(value) = prefs.edit { putInt(MAX_FAILED_PASSWORD_ATTEMPTS, value) }
 
+    var isUsbDataSignalingCtlEnabled: Boolean
+        get() = prefs.getBoolean(USB_DATA_SIGNALING_CTL_ENABLED, false)
+        set(value) = prefs.edit { putBoolean(USB_DATA_SIGNALING_CTL_ENABLED, value) }
+
+    var monitor: Int
+        get() = prefs.getInt(MONITOR, 0)
+        set(value) = prefs.edit { putInt(MONITOR, value) }
+
     fun registerListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) =
         prefs.registerOnSharedPreferenceChangeListener(listener)
 
@@ -58,4 +68,9 @@ class Preferences(ctx: Context, encrypted: Boolean = true) {
             }
         }
     }
+}
+
+enum class Monitor(val value: Int) {
+    PASSWORD(1),
+    INTERNET(1 shl 1),
 }

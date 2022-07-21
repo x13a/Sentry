@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="all">
+
+        <item
+            android:id="@+id/nav_main"
+            android:title="@string/main"
+            android:checked="true" />
+
+        <item
+            android:id="@+id/nav_monitor"
+            android:title="@string/monitor" />
+
+    </group>
+
+</menu>
