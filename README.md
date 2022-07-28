@@ -36,8 +36,9 @@ automatically on screen off.
 ## Example
 
 To set as device owner:
+
 ```sh
-$ adb shell dpm set-device-owner me.lucky.sentry/.DeviceAdminReceiver
+adb shell dpm set-device-owner me.lucky.sentry/.DeviceAdminReceiver
 ```
 
 ## Localization
