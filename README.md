@@ -40,10 +40,13 @@ To set as device owner:
 $ adb shell dpm set-device-owner me.lucky.sentry/.DeviceAdminReceiver
 ```
 
-## License
-[![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+## Localization
 
-This application is Free Software: You can use, study share and improve it at your will.
-Specifically you can redistribute and/or modify it under the terms of the
-[GNU General Public License v3](https://www.gnu.org/licenses/gpl.html) as published by the Free
-Software Foundation.
+[<img 
+      src="https://user-images.githubusercontent.com/53379023/153461055-50169c86-b187-40c7-8ec8-97d5e93660b8.png" 
+      alt="Crowdin" 
+      height="51">](https://crwd.in/me-lucky-sentry)
+
+## License
+
+[![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
