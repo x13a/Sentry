@@ -12,7 +12,7 @@ Enforce security policies.
       height="80">](https://play.google.com/store/apps/details?id=me.lucky.sentry)
 
 <img 
-     src="https://raw.githubusercontent.com/x13a/Sentry/main/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" 
+     src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" 
      width="30%" 
      height="30%">
 
