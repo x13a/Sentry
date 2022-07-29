@@ -3,9 +3,7 @@
     <string name="app_name">Sentry</string>
     <string name="monitor_password">Passwort</string>
     <string name="monitor_internet">Internet</string>
-    <string name="monitor_internet">I</string>
     <string name="notification_title">ALARM</string>
-    <string name="notification_password_text">Fehlgeschlagener Passwortversuch erkannt!</string>
     <string name="notification_password_text">Fehlgeschlagener Passwortversuch erkannt!</string>
     <string name="unknown_app">Eine unbekannte App</string>
     <string name="goto_button">Gehe zu</string>
@@ -13,7 +11,6 @@
     <string name="monitor_internet_description">Wenn eine Anwendung nach einer Aktualisierung die INTERNET-Erlaubnis erhält, erhalten Sie eine Benachrichtigung.</string>
     <string name="monitor_password_description">Bei einem fehlgeschlagenen Passwortversuch erhalten Sie eine Benachrichtigung.</string>
     <string name="monitor">Überwachung</string>
-    <string name="monitor">Ü</string>
     <string name="main">Start</string>
     <string name="authentication">Authentifizierung</string>
     <string name="max_failed_password_attempts_description">Maximale Anzahl von fehlgeschlagenen Passwortversuchen.</string>
