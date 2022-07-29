@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 
@@ -52,7 +53,9 @@ class MainFragment : Fragment() {
         prefsdb = Preferences(ctx, encrypted = false)
         prefs.copyTo(prefsdb)
         binding.apply {
-            maxFailedPasswordAttempts.value = prefs.maxFailedPasswordAttempts.toFloat()
+            maxFailedPasswordAttempts.editText?.setText(prefs.maxFailedPasswordAttempts.toString())
+            maxFailedPasswordAttemptsWarning.isChecked =
+                prefs.isMaxFailedPasswordAttemptsWarningChecked
             val canChangeUsbDataSignaling = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
                     admin.canUsbDataSignalingBeDisabled() &&
                     admin.isDeviceOwner()
@@ -65,8 +68,18 @@ class MainFragment : Fragment() {
     }
 
     private fun setup() = binding.apply {
-        maxFailedPasswordAttempts.addOnChangeListener { _, value, _ ->
-            prefs.maxFailedPasswordAttempts = value.toInt()
+        maxFailedPasswordAttempts.editText?.doAfterTextChanged {
+            val i = it?.toString()?.toIntOrNull() ?: return@doAfterTextChanged
+            prefs.maxFailedPasswordAttempts = i
+            if (prefs.isMaxFailedPasswordAttemptsWarningChecked)
+                try { admin.setMaximumFailedPasswordsForWipe(i) } catch (exc: SecurityException) {}
+        }
+        maxFailedPasswordAttemptsWarning.setOnCheckedChangeListener { _, isChecked ->
+            prefs.isMaxFailedPasswordAttemptsWarningChecked = isChecked
+            try {
+                admin.setMaximumFailedPasswordsForWipe(
+                    if (isChecked) prefs.maxFailedPasswordAttempts else 0)
+            } catch (exc: SecurityException) {}
         }
         usbDataSignaling.setOnCheckedChangeListener { _, isChecked ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return@setOnCheckedChangeListener
@@ -88,6 +101,12 @@ class MainFragment : Fragment() {
     }
 
     private fun setOn() {
+        try {
+            admin.setMaximumFailedPasswordsForWipe(
+                if (prefs.isMaxFailedPasswordAttemptsWarningChecked) prefs.maxFailedPasswordAttempts
+                else 0
+            )
+        } catch (exc: SecurityException) {}
         prefs.isEnabled = true
         binding.toggle.isChecked = true
     }

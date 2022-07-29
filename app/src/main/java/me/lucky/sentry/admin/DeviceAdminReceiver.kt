@@ -18,6 +18,7 @@ class DeviceAdminReceiver : DeviceAdminReceiver() {
                 || context.getSystemService(UserManager::class.java)?.isUserUnlocked == true)
         if (prefs.monitor.and(Monitor.PASSWORD.value) != 0)
             NotificationManager(context).notifyPassword()
+        if (prefs.isMaxFailedPasswordAttemptsWarningChecked) return
         val maxFailedPasswordAttempts = prefs.maxFailedPasswordAttempts
         if (!prefs.isEnabled || maxFailedPasswordAttempts <= 0) return
         val admin = DeviceAdminManager(context)

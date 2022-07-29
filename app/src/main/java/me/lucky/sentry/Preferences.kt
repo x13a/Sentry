@@ -12,6 +12,8 @@ class Preferences(ctx: Context, encrypted: Boolean = true) {
     companion object {
         private const val ENABLED = "enabled"
         private const val MAX_FAILED_PASSWORD_ATTEMPTS = "max_failed_password_attempts"
+        private const val MAX_FAILED_PASSWORD_ATTEMPTS_WARNING =
+            "max_failed_password_attempts_warning"
         private const val USB_DATA_SIGNALING_CTL_ENABLED = "usb_data_signaling_ctl_enabled"
         private const val MONITOR = "monitor"
 
@@ -42,6 +44,10 @@ class Preferences(ctx: Context, encrypted: Boolean = true) {
     var maxFailedPasswordAttempts: Int
         get() = prefs.getInt(MAX_FAILED_PASSWORD_ATTEMPTS, 0)
         set(value) = prefs.edit { putInt(MAX_FAILED_PASSWORD_ATTEMPTS, value) }
+
+    var isMaxFailedPasswordAttemptsWarningChecked: Boolean
+        get() = prefs.getBoolean(MAX_FAILED_PASSWORD_ATTEMPTS_WARNING, false)
+        set(value) = prefs.edit { putBoolean(MAX_FAILED_PASSWORD_ATTEMPTS_WARNING, value) }
 
     var isUsbDataSignalingCtlEnabled: Boolean
         get() = prefs.getBoolean(USB_DATA_SIGNALING_CTL_ENABLED, false)

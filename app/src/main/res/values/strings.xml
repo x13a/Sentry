@@ -6,7 +6,10 @@
     <string name="usb_data_signaling_ctl">Controller</string>
     <string name="usb_data_signaling_ctl_description">Turn USB data signaling OFF on screen off and turn it ON on unlock.</string>
     <string name="usb_data_signaling_change_failed_popup">Failed to change USB data signaling policy</string>
-    <string name="max_failed_password_attempts_description">Maximum number of failed password attempts.</string>
+    <string name="max_failed_password_attempts_helper_text">Maximum number of failed password attempts.</string>
+    <string name="max_failed_password_attempts_hint">number</string>
+    <string name="max_failed_password_attempts_warning">Warning</string>
+    <string name="max_failed_password_attempts_warning_description">Show X attempts left.</string>
     <string name="authentication">Authentication</string>
     <string name="main">Main</string>
     <string name="monitor">Monitor</string>
@@ -19,4 +22,8 @@
     <string name="notification_internet_text">%1$s (%2$s) has got INTERNET permission!</string>
     <string name="unknown_app">An unknown app</string>
     <string name="goto_button">GOTO</string>
+    <string name="panic_app_dialog_title">Confirm panic app</string>
+    <string name="panic_app_dialog_message">Are you sure you want to allow %1$s to trigger destructive panic actions\?</string>
+    <string name="panic_app_unknown_app">an unknown app</string>
+    <string name="allow">Allow</string>
 </resources>

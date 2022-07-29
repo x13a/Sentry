@@ -11,7 +11,7 @@ import me.lucky.sentry.databinding.ActivityMainBinding
 import me.lucky.sentry.fragment.MainFragment
 import me.lucky.sentry.fragment.MonitorFragment
 
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -3,6 +3,20 @@
     <string name="app_name">Sentry</string>
     <string name="usb_data_signaling">Передача данных по USB</string>
     <string name="usb_data_signaling_description">Когда отключено, соединения по USB (кроме зарядки) запрещены.</string>
+    <string name="usb_data_signaling_ctl">Контроллер</string>
+    <string name="usb_data_signaling_ctl_description">Выключите сигнализацию данных USB на выключенном экране и включите ее при разблокировке.</string>
     <string name="usb_data_signaling_change_failed_popup">Не удалось изменить политику передачи данных по USB</string>
-    <string name="max_failed_password_attempts_description">Максимальное количество неудачных попыток ввода пароля.</string>
+    <string name="max_failed_password_attempts_helper_text">Максимальное количество неудачных попыток ввода пароля.</string>
+    <string name="authentication">Аутентификация</string>
+    <string name="main">Главная</string>
+    <string name="monitor">Экран</string>
+    <string name="monitor_password">Пароль</string>
+    <string name="monitor_password_description">При неудачной попытке ввода пароля вы получите уведомление.</string>
+    <string name="monitor_internet">Интернет</string>
+    <string name="monitor_internet_description">Если какое-либо приложение получит ИНТЕРНЕТ разрешение после обновления, вы получите уведомление.</string>
+    <string name="notification_title">ВНИМАНИЕ</string>
+    <string name="notification_password_text">Обнаружена неудачная попытка вввода пароля!</string>
+    <string name="notification_internet_text">%1$s (%2$s) получил ИНТЕРНЕТ разрешение!</string>
+    <string name="unknown_app">Неизвестное приложение</string>
+    <string name="goto_button">НАЙТИ</string>
 </resources>

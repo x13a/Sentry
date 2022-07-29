@@ -2,6 +2,7 @@ package me.lucky.sentry
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.SystemClock
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -11,8 +12,6 @@ class NotificationManager(private val ctx: Context) {
         private const val CHANNEL_PASSWORD_ID = "monitor_password"
         private const val CHANNEL_INTERNET_ID = "monitor_internet"
         private const val GROUP_KEY = "alert"
-        private const val NOTIFICATION_PASSWORD_ID = 1000
-        private const val NOTIFICATION_INTERNET_ID = 1001
     }
 
     private val manager = NotificationManagerCompat.from(ctx)
@@ -32,7 +31,7 @@ class NotificationManager(private val ctx: Context) {
 
     fun notifyInternet(packageName: String) =
         manager.notify(
-            NOTIFICATION_INTERNET_ID,
+            SystemClock.uptimeMillis().toInt(),
             buildNotification(NotificationCompat.Builder(ctx, CHANNEL_INTERNET_ID)
                 .setContentText(formatInternetText(packageName))),)
 
@@ -49,7 +48,7 @@ class NotificationManager(private val ctx: Context) {
 
     fun notifyPassword() =
         manager.notify(
-            NOTIFICATION_PASSWORD_ID,
+            SystemClock.uptimeMillis().toInt(),
             buildNotification(NotificationCompat.Builder(ctx, CHANNEL_PASSWORD_ID)
                 .setContentText(ctx.getString(R.string.notification_password_text))
                 .setSilent(true)),)

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sentry</string>
+    <string name="usb_data_signaling">Передача даних USB</string>
+    <string name="usb_data_signaling_description">Якщо вимкнено, з’єднання даних через USB (за винятком функцій заряджання) заборонено.</string>
+    <string name="usb_data_signaling_ctl">Контролер</string>
+    <string name="usb_data_signaling_ctl_description">Вимкніть передачу даних USB на екрані та увімкніть під час розблокування.</string>
+    <string name="usb_data_signaling_change_failed_popup">Не вдалося змінити політику передачі даних USB</string>
+    <string name="max_failed_password_attempts_helper_text">Максимальна кількість невдалих спроб пароля.</string>
+    <string name="authentication">Автентифікація</string>
+    <string name="main">Головна</string>
+    <string name="monitor">Спостереження</string>
+    <string name="monitor_password">Пароль</string>
+    <string name="monitor_password_description">У разі невдалої спроби пароля ви отримаєте сповіщення.</string>
+    <string name="monitor_internet">Інтернет</string>
+    <string name="monitor_internet_description">Якщо якась програма отримає дозвіл ІНТЕРНЕТ після оновлення, ви отримаєте сповіщення.</string>
+    <string name="notification_title">ПОПЕРЕДЖЕННЯ</string>
+    <string name="notification_password_text">Виявлено невдалу спробу пароля!</string>
+    <string name="notification_internet_text">%1$s (%2$s) отримав дозвіл ІНТЕРНЕТ!</string>
+    <string name="unknown_app">Невідомий додаток</string>
+    <string name="goto_button">Доступ до сповіщень</string>
+</resources>

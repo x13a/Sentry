@@ -15,6 +15,9 @@ class DeviceAdminManager(private val ctx: Context) {
     fun getCurrentFailedPasswordAttempts() = dpm?.currentFailedPasswordAttempts ?: 0
     fun isDeviceOwner() = dpm?.isDeviceOwnerApp(ctx.packageName) ?: false
 
+    fun setMaximumFailedPasswordsForWipe(num: Int) =
+        dpm?.setMaximumFailedPasswordsForWipe(deviceAdmin, num)
+
     @RequiresApi(Build.VERSION_CODES.S)
     fun canUsbDataSignalingBeDisabled() = dpm?.canUsbDataSignalingBeDisabled() ?: false
 

@@ -1,0 +1,6 @@
+any failed password attempts
+optional warning
+panickit responder
+add German translation, thanks to Malte Kiefer (@MalteKiefer)
+add Ukrainian translation, thanks to GNCanva
+update Russian translation, thanks to Photon_Gilbert
