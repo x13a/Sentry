@@ -28,6 +28,7 @@ automatically on screen off.
 * DEVICE_ADMIN - limit the maximum number of failed password attempts
 * DEVICE_OWNER - disable USB data connections
 * NOTIFICATION_LISTENER - receive lock/package events
+* QUERY_ALL_PACKAGES - is used for Monitor > Internet
 
 ## Example
 
