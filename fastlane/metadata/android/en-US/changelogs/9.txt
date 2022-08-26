@@ -1,0 +1,2 @@
+disable safe boot mode option (Android 7, Device Owner)
+update Russian translation, thanks to Dmitry Grigoryev (icecom), Photon_Gilbert

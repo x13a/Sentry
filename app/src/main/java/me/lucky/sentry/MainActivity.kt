@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import me.lucky.sentry.databinding.ActivityMainBinding
 import me.lucky.sentry.fragment.MainFragment
 import me.lucky.sentry.fragment.MonitorFragment
+import me.lucky.sentry.fragment.UserRestrictionsFragment
 
 open class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -48,6 +49,7 @@ open class MainActivity : AppCompatActivity() {
     private fun getFragment(id: Int) = when (id) {
         R.id.nav_main -> MainFragment()
         R.id.nav_monitor -> MonitorFragment()
+        R.id.nav_user_restrictions -> UserRestrictionsFragment()
         else -> MainFragment()
     }
 

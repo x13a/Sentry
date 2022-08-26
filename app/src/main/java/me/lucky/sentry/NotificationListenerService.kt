@@ -48,7 +48,7 @@ class NotificationListenerService : NotificationListenerService() {
 
     private fun deinit() {
         val unregister = { it: BroadcastReceiver ->
-            try { unregisterReceiver(it) } catch (exc: IllegalArgumentException) {}
+            try { unregisterReceiver(it) } catch (_: IllegalArgumentException) {}
         }
         unregister(lockReceiver)
         unregister(packageReceiver)
@@ -73,7 +73,7 @@ class NotificationListenerService : NotificationListenerService() {
         @RequiresApi(Build.VERSION_CODES.S)
         private fun setUsbDataSignalingEnabled(ctx: Context, enabled: Boolean) {
             try { DeviceAdminManager(ctx).setUsbDataSignalingEnabled(enabled) }
-            catch (exc: Exception) {}
+            catch (_: Exception) {}
         }
     }
 
@@ -100,12 +100,14 @@ class NotificationListenerService : NotificationListenerService() {
                         val packageName = getPackageName(intent) ?: return
                         if (Utils.hasInternet(ctx, packageName)) return
                         try { db.insert(Package(0, packageName)) }
-                        catch (exc: SQLiteConstraintException) {}
+                        catch (_: SQLiteConstraintException) {}
                     }
                     Intent.ACTION_PACKAGE_REPLACED -> {
                         val packageName = getPackageName(intent) ?: return
                         db.select(packageName) ?: return
                         if (!Utils.hasInternet(ctx, packageName)) return
+                        db.delete(packageName)
+                        if (!Preferences(ctx).isEnabled) return
                         NotificationManager(ctx).notifyInternet(packageName)
                     }
                     Intent.ACTION_PACKAGE_FULLY_REMOVED ->

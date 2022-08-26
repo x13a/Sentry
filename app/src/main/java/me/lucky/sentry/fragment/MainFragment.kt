@@ -2,7 +2,6 @@ package me.lucky.sentry.fragment
 
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,7 +21,6 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var ctx: Context
     private lateinit var prefs: Preferences
-    private lateinit var prefsdb: Preferences
     private val admin by lazy { DeviceAdminManager(ctx) }
 
     override fun onCreateView(
@@ -38,24 +36,16 @@ class MainFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        prefs.registerListener(prefsListener)
         update()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        prefs.unregisterListener(prefsListener)
     }
 
     private fun init() {
         ctx = requireContext()
         prefs = Preferences(ctx)
-        prefsdb = Preferences(ctx, encrypted = false)
-        prefs.copyTo(prefsdb)
         binding.apply {
             maxFailedPasswordAttempts.editText?.setText(prefs.maxFailedPasswordAttempts.toString())
-            maxFailedPasswordAttemptsWarning.isChecked =
-                prefs.isMaxFailedPasswordAttemptsWarningChecked
+            maxFailedPasswordAttemptsDefaultApi.isChecked =
+                prefs.isMaxFailedPasswordAttemptsDefaultApiChecked
             val canChangeUsbDataSignaling = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
                     admin.canUsbDataSignalingBeDisabled() &&
                     admin.isDeviceOwner()
@@ -69,21 +59,17 @@ class MainFragment : Fragment() {
 
     private fun setup() = binding.apply {
         maxFailedPasswordAttempts.editText?.doAfterTextChanged {
-            val i = it?.toString()?.toIntOrNull() ?: return@doAfterTextChanged
-            prefs.maxFailedPasswordAttempts = i
-            if (prefs.isMaxFailedPasswordAttemptsWarningChecked)
-                try { admin.setMaximumFailedPasswordsForWipe(i) } catch (exc: SecurityException) {}
+            prefs.maxFailedPasswordAttempts = it?.toString()?.toIntOrNull() ?:
+                return@doAfterTextChanged
+            setMaximumFailedPasswordAttempts()
         }
-        maxFailedPasswordAttemptsWarning.setOnCheckedChangeListener { _, isChecked ->
-            prefs.isMaxFailedPasswordAttemptsWarningChecked = isChecked
-            try {
-                admin.setMaximumFailedPasswordsForWipe(
-                    if (isChecked) prefs.maxFailedPasswordAttempts else 0)
-            } catch (exc: SecurityException) {}
+        maxFailedPasswordAttemptsDefaultApi.setOnCheckedChangeListener { _, isChecked ->
+            prefs.isMaxFailedPasswordAttemptsDefaultApiChecked = isChecked
+            setMaximumFailedPasswordAttempts()
         }
         usbDataSignaling.setOnCheckedChangeListener { _, isChecked ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return@setOnCheckedChangeListener
-            try { admin.setUsbDataSignalingEnabled(isChecked) } catch (exc: Exception) {
+            try { admin.setUsbDataSignalingEnabled(isChecked) } catch (_: Exception) {
                 Snackbar.make(
                     usbDataSignaling,
                     R.string.usb_data_signaling_change_failed_popup,
@@ -101,19 +87,14 @@ class MainFragment : Fragment() {
     }
 
     private fun setOn() {
-        try {
-            admin.setMaximumFailedPasswordsForWipe(
-                if (prefs.isMaxFailedPasswordAttemptsWarningChecked) prefs.maxFailedPasswordAttempts
-                else 0
-            )
-        } catch (exc: SecurityException) {}
+        setMaximumFailedPasswordAttempts()
         prefs.isEnabled = true
         binding.toggle.isChecked = true
     }
 
     private fun setOff() {
         prefs.isEnabled = false
-        try { admin.remove() } catch (exc: SecurityException) {}
+        try { admin.remove() } catch (_: SecurityException) {}
         binding.toggle.isChecked = false
     }
 
@@ -128,7 +109,11 @@ class MainFragment : Fragment() {
             if (it.resultCode != Activity.RESULT_OK) setOff() else setOn()
         }
 
-    private val prefsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-        prefs.copyTo(prefsdb, key)
-    }
+    private fun setMaximumFailedPasswordAttempts() = try {
+        admin.setMaximumFailedPasswordsForWipe(
+            if (prefs.isMaxFailedPasswordAttemptsDefaultApiChecked)
+                prefs.maxFailedPasswordAttempts
+            else 0
+        )
+    } catch (_: SecurityException) {}
 }

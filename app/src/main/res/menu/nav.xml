@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:checkableBehavior="all">
+    <item
+        android:id="@+id/nav_main"
+        android:title="@string/main"
+        android:checkable="true"
+        android:checked="true" />
 
-        <item
-            android:id="@+id/nav_main"
-            android:title="@string/main"
-            android:checked="true" />
+    <group
+        android:id="@+id/nav_group_options"
+        android:checkableBehavior="all">
 
         <item
             android:id="@+id/nav_monitor"
             android:title="@string/monitor" />
+
+        <item
+            android:id="@+id/nav_user_restrictions"
+            android:title="@string/user_restrictions" />
 
     </group>
 

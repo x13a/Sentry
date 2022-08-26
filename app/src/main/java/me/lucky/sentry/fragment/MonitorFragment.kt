@@ -2,7 +2,6 @@ package me.lucky.sentry.fragment
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.provider.Settings
@@ -18,7 +17,6 @@ class MonitorFragment : Fragment() {
     private lateinit var binding: FragmentMonitorBinding
     private lateinit var ctx: Context
     private lateinit var prefs: Preferences
-    private lateinit var prefsdb: Preferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,20 +29,9 @@ class MonitorFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        prefs.registerListener(prefsListener)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        prefs.unregisterListener(prefsListener)
-    }
-
     private fun init() {
         ctx = requireContext()
         prefs = Preferences(ctx)
-        prefsdb = Preferences(ctx, encrypted = false)
         NotificationManager(ctx).createNotificationChannels()
         binding.apply {
             val opts = prefs.monitor
@@ -74,11 +61,7 @@ class MonitorFragment : Fragment() {
             .filterNot { Utils.hasInternet(ctx, it.packageName) })
         {
             try { db.insert(Package(0, app.packageName)) }
-            catch (exc: SQLiteConstraintException) {}
+            catch (_: SQLiteConstraintException) {}
         }
-    }
-
-    private val prefsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-        prefs.copyTo(prefsdb, key)
     }
 }

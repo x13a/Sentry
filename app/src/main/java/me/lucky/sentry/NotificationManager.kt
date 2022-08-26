@@ -58,7 +58,7 @@ class NotificationManager(private val ctx: Context) {
         try {
             app = ctx.packageManager
                 .getApplicationLabel(ctx.packageManager.getApplicationInfo(packageName, 0))
-        } catch (exc: PackageManager.NameNotFoundException) {}
+        } catch (_: PackageManager.NameNotFoundException) {}
         return ctx.getString(R.string.notification_internet_text, app.toString(), packageName)
     }
 }

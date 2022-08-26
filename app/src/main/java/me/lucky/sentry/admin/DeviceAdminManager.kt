@@ -14,6 +14,11 @@ class DeviceAdminManager(private val ctx: Context) {
     fun remove() = dpm?.removeActiveAdmin(deviceAdmin)
     fun getCurrentFailedPasswordAttempts() = dpm?.currentFailedPasswordAttempts ?: 0
     fun isDeviceOwner() = dpm?.isDeviceOwnerApp(ctx.packageName) ?: false
+    fun addUserRestriction(key: String) = dpm?.addUserRestriction(deviceAdmin, key)
+    fun clearUserRestriction(key: String) = dpm?.clearUserRestriction(deviceAdmin, key)
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun getUserRestrictions() = dpm?.getUserRestrictions(deviceAdmin)
 
     fun setMaximumFailedPasswordsForWipe(num: Int) =
         dpm?.setMaximumFailedPasswordsForWipe(deviceAdmin, num)

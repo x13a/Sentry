@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,17 +43,17 @@
                     android:layout_marginVertical="5dp" />
 
                 <CheckBox
-                    android:id="@+id/maxFailedPasswordAttemptsWarning"
+                    android:id="@+id/maxFailedPasswordAttemptsDefaultApi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
                     android:textAppearance="?attr/textAppearanceBodyLarge"
-                    android:text="@string/max_failed_password_attempts_warning" />
+                    android:text="@string/max_failed_password_attempts_default_api" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/max_failed_password_attempts_warning_description"
+                    android:text="@string/max_failed_password_attempts_default_api_description"
                     android:textAppearance="?attr/textAppearanceBodySmall" />
 
                 <Space
@@ -100,7 +100,7 @@
                     android:textAppearance="?attr/textAppearanceBodySmall" />
 
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <ToggleButton
             android:id="@+id/toggle"
