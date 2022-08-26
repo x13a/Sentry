@@ -13,7 +13,7 @@ Permissions:
 * DEVICE_ADMIN - limit the maximum number of failed password attempts
 * DEVICE_OWNER - disable USB data connections
 * NOTIFICATION_LISTENER - receive lock/package events
-* QUERY_ALL_PACKAGES - is used for Monitor > Internet
+* QUERY_ALL_PACKAGES - receiver all package events
 
 It is Free Open Source Software.
 License: GPL-3
