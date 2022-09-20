@@ -27,6 +27,6 @@
     <string name="panic_app_unknown_app">an unknown app</string>
     <string name="allow">Allow</string>
     <string name="user_restrictions">User Restrictions</string>
-    <string name="user_restrictions_safe_boot">Safe boot</string>
+    <string name="user_restrictions_safe_boot">Safe mode</string>
     <string name="user_restrictions_safe_boot_description">Specifies if the user is not allowed to reboot the device into safe boot mode.</string>
 </resources>
