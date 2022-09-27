@@ -32,7 +32,7 @@ Be aware that the app may not work in _safe_ mode.
 
 ## Example
 
-To set as device owner:
+To set as Device Owner:
 
 ```sh
 adb shell dpm set-device-owner me.lucky.sentry/.admin.DeviceAdminReceiver
