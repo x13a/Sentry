@@ -3,21 +3,38 @@ name: Android CI
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'app/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle/**'
+      - 'gradle.properties'
+      - 'gradlew'
+      - 'gradlew.bat'
+      - '.github/workflows/android.yml'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'app/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle/**'
+      - 'gradle.properties'
+      - 'gradlew'
+      - 'gradlew.bat'
+      - '.github/workflows/android.yml'
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: set up JDK 11
-      uses: actions/setup-java@v2
+    - uses: actions/checkout@v7
+    - name: set up JDK 25
+      uses: actions/setup-java@v6
       with:
-        java-version: '11'
-        distribution: 'temurin'
+        java-version: '25'
+        distribution: jetbrains
         cache: gradle
 
     - name: Grant execute permission for gradlew
