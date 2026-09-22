@@ -9,7 +9,7 @@
     <string name="max_failed_password_attempts_helper_text">Maximum failed password attempts for wipe.</string>
     <string name="max_failed_password_attempts_hint">count</string>
     <string name="max_failed_password_attempts_default_api">Default API</string>
-    <string name="max_failed_password_attempts_default_api_description">Use default Android API. It may show X attempts left, but will work in safe boot mode.</string>
+    <string name="max_failed_password_attempts_default_api_description">Use default Android API. It will show X attempts left, but will work in safe boot mode.</string>
     <string name="authentication">Authentication</string>
     <string name="main">Main</string>
     <string name="monitor">Monitor</string>
