@@ -14,8 +14,11 @@ class DeviceAdminReceiver : DeviceAdminReceiver() {
         super.onPasswordFailed(context, intent, user)
         val prefs = Preferences(context)
         if (!prefs.isEnabled) return
-        if (prefs.monitor.and(Monitor.PASSWORD.value) != 0)
-            NotificationManager(context).notifyPassword()
+        if (prefs.monitor.and(Monitor.PASSWORD.value) != 0) {
+            try {
+                NotificationManager(context).notifyPassword()
+            } catch (_: SecurityException) {}
+        }
         if (prefs.isMaxFailedPasswordAttemptsDefaultApiChecked) return
         val maxFailedPasswordAttempts = prefs.maxFailedPasswordAttempts
         if (maxFailedPasswordAttempts <= 0) return

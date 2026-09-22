@@ -96,7 +96,7 @@ class NotificationListenerService : NotificationListenerService() {
                 val db by lazy { AppDatabase.getInstance(ctx).packageDao() }
                 when (intent.action) {
                     Intent.ACTION_PACKAGE_ADDED -> {
-                        if (intent.extras?.get(Intent.EXTRA_REPLACING) == true) return
+                        if (intent.extras?.getBoolean(Intent.EXTRA_REPLACING) == true) return
                         val packageName = getPackageName(intent) ?: return
                         if (Utils.hasInternet(ctx, packageName)) return
                         try { db.insert(Package(0, packageName)) }
@@ -108,7 +108,10 @@ class NotificationListenerService : NotificationListenerService() {
                         if (!Utils.hasInternet(ctx, packageName)) return
                         db.delete(packageName)
                         if (!Preferences(ctx).isEnabled) return
-                        NotificationManager(ctx).notifyInternet(packageName)
+                        try {
+                            NotificationManager(ctx).notifyInternet(packageName)
+                        } catch (_: SecurityException) {}
+
                     }
                     Intent.ACTION_PACKAGE_FULLY_REMOVED ->
                         db.delete(getPackageName(intent) ?: return)

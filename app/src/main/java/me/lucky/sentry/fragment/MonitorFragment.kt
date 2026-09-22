@@ -1,13 +1,17 @@
 package me.lucky.sentry.fragment
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.database.sqlite.SQLiteConstraintException
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 
 import me.lucky.sentry.*
@@ -43,10 +47,16 @@ class MonitorFragment : Fragment() {
     private fun setup() = binding.apply {
         password.setOnCheckedChangeListener { _, isChecked ->
             prefs.monitor = Utils.setFlag(prefs.monitor, Monitor.PASSWORD.value, isChecked)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && isChecked)
+                requestNotificationsPermissions()
         }
         internet.setOnCheckedChangeListener { _, isChecked ->
             prefs.monitor = Utils.setFlag(prefs.monitor, Monitor.INTERNET.value, isChecked)
-            if (isChecked) updateDatabase()
+            if (isChecked) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    requestNotificationsPermissions()
+                updateDatabase()
+            }
         }
         gotoBtn.setOnClickListener {
             startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
@@ -64,4 +74,11 @@ class MonitorFragment : Fragment() {
             catch (_: SQLiteConstraintException) {}
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun requestNotificationsPermissions() =
+        registerForNotificationsPermissions.launch(Manifest.permission.POST_NOTIFICATIONS)
+
+    private val registerForNotificationsPermissions =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}
 }

@@ -1,8 +1,10 @@
 package me.lucky.sentry
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.SystemClock
+import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -29,6 +31,7 @@ class NotificationManager(private val ctx: Context) {
         ))
     }
 
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun notifyInternet(packageName: String) =
         manager.notify(
             SystemClock.uptimeMillis().toInt(),
@@ -46,6 +49,7 @@ class NotificationManager(private val ctx: Context) {
         .setGroupSummary(true)
         .build()
 
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun notifyPassword() =
         manager.notify(
             SystemClock.uptimeMillis().toInt(),
