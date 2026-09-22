@@ -13,7 +13,7 @@ class Utils {
                 info = ctx
                     .packageManager
                     .getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
-            } catch (exc: PackageManager.NameNotFoundException) { return false }
+            } catch (_: PackageManager.NameNotFoundException) { return false }
             return info.requestedPermissions?.contains(Manifest.permission.INTERNET) ?: false
         }
 

@@ -6,8 +6,8 @@
     <string name="usb_data_signaling_ctl">Controller</string>
     <string name="usb_data_signaling_ctl_description">Turn USB data signaling OFF on screen off and turn it ON on unlock.</string>
     <string name="usb_data_signaling_change_failed_popup">Failed to change USB data signaling policy</string>
-    <string name="max_failed_password_attempts_helper_text">Maximum number of failed password attempts.</string>
-    <string name="max_failed_password_attempts_hint">number</string>
+    <string name="max_failed_password_attempts_helper_text">Maximum failed password attempts for wipe.</string>
+    <string name="max_failed_password_attempts_hint">count</string>
     <string name="max_failed_password_attempts_default_api">Default API</string>
     <string name="max_failed_password_attempts_default_api_description">Use default Android API. It may show X attempts left, but will work in safe boot mode.</string>
     <string name="authentication">Authentication</string>

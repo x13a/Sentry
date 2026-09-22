@@ -86,7 +86,7 @@ open class MainActivity : AppCompatActivity() {
                 .setConfirmationRequired(false)
                 .setAllowedAuthenticators(authenticators)
                 .build())
-        } catch (exc: Exception) { return false }
+        } catch (_: Exception) { return false }
         return true
     }
 }
